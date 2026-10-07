@@ -37,7 +37,7 @@
         "termsOfServiceURL": "https://byairapp.com/privacy_and_terms/",
         "defaultPrompt": [
           "Brief me on my next flight, including delays and incoming aircraft.",
-          "Review my upcoming trip and connection times.",
+          "When does my friend's flight land?",
           "Summarize my flights recorded in byAir last year."
         ],
         "composerIcon": "./assets/icon.png",
@@ -102,7 +102,7 @@
         "commerce_description": "byAir does not sell airline tickets or process payments through this plugin. An existing byAir Pro subscription is required to execute MCP tools."
       },
       "publication": {
-        "release_notes": "Initial directory submission with four byAir skills: flight brief, trip brief, itinerary import and recorded flight history. Includes the production OAuth MCP connection."
+        "release_notes": "Initial release with flight tracking and management, friends' flights, itinerary imports, and personal flight statistics."
       }
     }
   },
