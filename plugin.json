@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "byair",
   "version": "0.2.0",
-  "description": "Track your flights, organize trips, and explore personal flight statistics with byAir.",
+  "description": "Add and manage your flights, check friends' flights, organize trips, and explore your flight history with byAir.",
   "author": {
     "name": "BYAIRAPP SL",
     "email": "connect@byairapp.com",
@@ -20,14 +20,16 @@
       "interface": {
         "displayName": "byAir",
         "shortDescription": "Your flights, trips and stats",
-        "longDescription": "Connect your existing byAir account to check flight status, delays, terminals, gates, and incoming aircraft. Brief upcoming trips and connections, preview an itinerary before adding flights, and explore your recorded flight history. Four skills guide these workflows using the connected byAir MCP tools. Requires a byAir account and an active byAir Pro subscription. Create an account in the byAir mobile app, then sign in with email, Google, or Apple. Flight data may be incomplete or change; predicted delays are distinct from observed status. byAir does not purchase tickets, change airline reservations, or promise continuous monitoring through the assistant.",
+        "longDescription": "Connect your existing byAir account to add and manage flights, organize trips, and check friends' shared flights. Add your own flights or track a friend's flight, preview itinerary imports, and update your tracked flight details. Check flight status, delays, terminals, gates, and incoming aircraft. Review upcoming trips and connections, and explore your recorded flight history and statistics. Requires a byAir account and an active byAir Pro subscription. Create an account in the byAir mobile app, then sign in with email, Google, or Apple. Flight data may be incomplete or change; predicted delays are distinct from observed status. byAir does not purchase tickets, change airline reservations, or promise continuous monitoring through the assistant.",
         "developerName": "BYAIRAPP SL",
         "category": "Productivity",
         "capabilities": [
+          "Add and manage tracked flights",
+          "Check friends' shared flights",
           "Check flight status and incoming aircraft",
           "Brief trips and connections",
           "Preview and import itineraries",
-          "Explore recorded flight history"
+          "Explore recorded flight history and statistics"
         ],
         "websiteURL": "https://byairapp.com/features/ai-integration/",
         "supportURL": "https://byairapp.com/faq/",
