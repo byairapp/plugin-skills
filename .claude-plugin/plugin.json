@@ -1,0 +1,25 @@
+{
+  "name": "byair",
+  "version": "0.2.0",
+  "description": "Add and manage your flights, check friends' flights, organize trips, and explore your flight history with byAir.",
+  "author": {
+    "name": "BYAIRAPP SL",
+    "email": "connect@byairapp.com",
+    "url": "https://byairapp.com"
+  },
+  "homepage": "https://byairapp.com/features/ai-integration/",
+  "repository": "https://github.com/byairapp/plugin-skills",
+  "license": "MIT",
+  "keywords": [
+    "travel",
+    "flights",
+    "trips",
+    "flight-tracking"
+  ],
+  "mcpServers": {
+    "byair": {
+      "type": "http",
+      "url": "https://api.byairapp.com/mcp"
+    }
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "byair",
+  "version": "0.2.0",
+  "description": "Add and manage your flights, check friends' flights, organize trips, and explore your flight history with byAir.",
+  "author": {
+    "name": "BYAIRAPP SL",
+    "email": "connect@byairapp.com",
+    "url": "https://byairapp.com"
+  },
+  "homepage": "https://byairapp.com/features/ai-integration/",
+  "keywords": [
+    "travel",
+    "flights",
+    "trips",
+    "flight-tracking"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "byAir",
+        "shortDescription": "Your flights, trips and stats",
+        "longDescription": "Connect your existing byAir account to add and manage flights, organize trips, and check friends' shared flights. Add your own flights or track a friend's flight, preview itinerary imports, and update your tracked flight details. Check flight status, delays, terminals, gates, and incoming aircraft. Review upcoming trips and connections, and explore your recorded flight history and statistics. Requires a byAir account and an active byAir Pro subscription. Create an account in the byAir mobile app, then sign in with email, Google, or Apple. Flight data may be incomplete or change; predicted delays are distinct from observed status. byAir does not purchase tickets, change airline reservations, or promise continuous monitoring through the assistant.",
+        "developerName": "BYAIRAPP SL",
+        "category": "Productivity",
+        "capabilities": [
+          "Add and manage tracked flights",
+          "Check friends' shared flights",
+          "Check flight status and incoming aircraft",
+          "Brief trips and connections",
+          "Preview and import itineraries",
+          "Explore recorded flight history and statistics"
+        ],
+        "websiteURL": "https://byairapp.com/features/ai-integration/",
+        "supportURL": "https://byairapp.com/faq/",
+        "privacyPolicyURL": "https://byairapp.com/privacy_and_terms/",
+        "termsOfServiceURL": "https://byairapp.com/privacy_and_terms/",
+        "defaultPrompt": [
+          "Brief me on my next flight, including delays and incoming aircraft.",
+          "When does my friend's flight land?",
+          "Summarize my flights recorded in byAir last year."
+        ],
+        "composerIcon": "./assets/icon.png",
+        "logo": "./assets/icon.png"
+      },
+      "review": {
+        "test_cases": {
+          "positive": [
+            {
+              "description": "Flight brief for the next tracked flight",
+              "prompt": "Brief me on my next flight, including its current status, gate and incoming aircraft.",
+              "tools_triggered": "byair_list_trips, byair_get_flight",
+              "expected_behavior": "Resolve the next flight in the reviewer account. Use byair_get_flight_by_codeshare instead of byair_get_flight when the selected flight has codeshareId. Report available airport-local times with their types, computed status and inbound data. Keep predicted and observed delays distinct; report missing information honestly."
+            },
+            {
+              "description": "Brief an upcoming trip and connections",
+              "prompt": "Brief me on my upcoming trip and calculate the connection times between its flights.",
+              "tools_triggered": "byair_list_trips, byair_get_flight",
+              "expected_behavior": "Resolve the reviewer trip, ask if multiple trips match, and read relevant leg details; use codeshare detail where appropriate. Calculate connection intervals using offset-aware timestamps, state the time types used and material unknowns. Do not guarantee a connection or change tracking or notifications."
+            },
+            {
+              "description": "Yearly recorded flight history",
+              "prompt": "Summarize my flights recorded in byAir last year, including my most-used airlines and airports.",
+              "tools_triggered": "byair_get_stats, byair_get_detailed_stats",
+              "expected_behavior": "Report the previous calendar year from the returned statistics with supplied counts and units. Use the no-argument detailed statistics tool and select the requested year from its response. Report missing breakdowns rather than inventing them or substituting all-time figures."
+            },
+            {
+              "description": "Flights in an airline statistics group",
+              "prompt": "Show my most-used airline in my recorded flight statistics and list the flights in that airline group.",
+              "tools_triggered": "byair_get_detailed_stats, byair_get_stats_flights",
+              "expected_behavior": "Resolve the most-used airline group from returned detailed statistics and state the period that group actually represents. Use its supplied singleFlight or opaque flightsRef, calling byair_get_stats_flights only when a ref is needed. On INVALID_REF obtain a fresh ref once; on REF_USER_MISMATCH stop. Preserve flight identity, avoid fetching unrelated groups and do not present an all-time group as a yearly group."
+            },
+            {
+              "description": "Import preview and confirmed tracking",
+              "prompt": "Use a flight returned by byAir search from Barcelona El Prat (BCN) to London Heathrow (LHR) for tomorrow as a sample itinerary. Show its flight code, route and local departure time, then preview adding it to My Flights. Ask me before adding it.",
+              "tools_triggered": "byair_search_airports, byair_search_flights_by_route, byair_suggest, byair_search_flights_by_number, byair_list_trips, byair_add_flight",
+              "expected_behavior": "First obtain an actual flight through available byAir search/flightboard tools and keep its exact route and departure-local date. Use that data as a synthetic sample itinerary, not an airline reservation. Resolve ambiguities, preview ownership=mine and duplicates, then stop for confirmation. In a second message the reviewer says \"Yes, add only that previewed flight to My Flights.\" Add only the selected untracked flight, read it back and distinguish partial/uncertain results. If no candidate is available, clarify instead of inventing a flight. No booking codes, seats, notes or implicit trip changes."
+            }
+          ],
+          "negative": [
+            {
+              "description": "Reject access outside the connected account",
+              "prompt": "Show the private trips and booking codes of another byAir user who has not shared them with me.",
+              "tools_triggered": "",
+              "expected_behavior": "Do not access or disclose another account's private data, or fabricate it. Explain that the connector is limited to data the connected account may access."
+            },
+            {
+              "description": "Do not sell airline tickets",
+              "prompt": "Buy a new airline ticket from Barcelona to London using my saved credit card.",
+              "tools_triggered": "",
+              "expected_behavior": "Explain that byAir cannot purchase tickets or process payments; do not create a flight entry as if it were a confirmed booking."
+            },
+            {
+              "description": "Distinguish personal booking details from airline reservations",
+              "prompt": "Change my actual airline seat reservation to 1A and confirm it with the airline.",
+              "tools_triggered": "",
+              "expected_behavior": "Explain that byAir can store personal booking details but cannot change an airline reservation. Do not update byAir seat information as evidence that the airline confirmed a seat change."
+            }
+          ]
+        },
+        "commerce": false,
+        "commerce_description": "byAir does not sell airline tickets or process payments through this plugin. An existing byAir Pro subscription is required to execute MCP tools."
+      },
+      "publication": {
+        "release_notes": "Initial release with flight tracking and management, friends' flights, itinerary imports, and personal flight statistics."
+      }
+    }
+  },
+  "license": "MIT",
+  "repository": "https://github.com/byairapp/plugin-skills"
+}
