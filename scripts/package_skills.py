@@ -8,7 +8,8 @@ from pathlib import Path
 from zipfile import ZIP_DEFLATED, ZipFile, ZipInfo
 
 
-ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = Path(__file__).resolve().parents[1]
+ROOT = REPO_ROOT / "plugins" / "byair"
 NAMES = (
     "byair-flight-brief",
     "byair-trip-brief",
@@ -68,7 +69,7 @@ def main():
     packages["byair-agent-skills.zip"] = {
         f"{name}/SKILL.md": content for name, content in skills.items()
     }
-    output = ROOT / "dist"
+    output = REPO_ROOT / "dist"
     if not args.check:
         output.mkdir(exist_ok=True)
     for filename, entries in packages.items():

@@ -1,55 +1,26 @@
 # byAir Agent Skills
 
-Use byAir in ChatGPT and Claude to check flights, prepare for trips, import itineraries and explore your recorded flight history. The package includes four skills and a connection to the remote byAir MCP server.
+The installable plugin is in [`plugins/byair/`](plugins/byair/). It contains the four skills, manifests for ChatGPT and Claude, the byAir MCP connection, its README, license and icon. See the [plugin README](plugins/byair/README.md) for requirements, supported workflows, privacy, support and manual installation.
 
-| Skill | What you can ask |
-| --- | --- |
-| `byair-flight-brief` | “Is my flight delayed? Where is the incoming plane?” |
-| `byair-trip-brief` | “Brief me on my upcoming trip and connections.” |
-| `byair-import-itinerary` | “Add the flights from this booking to byAir.” |
-| `byair-flight-history` | “Which airlines did I fly last year?” |
+## Directory source
 
-## Requirements
+For the Claude plugin bundle, use this repository, branch `main`, and plugin folder `plugins/byair`. Submit the remote MCP server as a separate connector.
 
-An existing byAir account and an active byAir Pro subscription are required to run MCP tools. Create an account in the byAir mobile app on iOS or Android. Connect your account through the byAir plugin or MCP connector and complete the byAir OAuth sign-in and consent flow. The skills use that connection to access your flights.
+OpenAI uses a ZIP built from the same plugin folder. The build scripts stay in `scripts/` outside the installable plugin and are developer utilities, not plugin runtime commands.
 
-The common MCP endpoint is `https://api.byairapp.com/mcp`. The package contains this public URL and uses OAuth; it does not contain a personal API key or reviewer credentials.
+## Build and validate
 
-## What the connection does
-
-The skills retrieve relevant flight, trip, airport and recorded-history data from byAir. An itinerary import previews matched flights and asks for confirmation before adding tracking. Requests to the byAir MCP service can include search terms, dates, flight or trip identifiers, statistics references, and parameters for the tracking changes or email exports you request. Results are returned to your AI assistant through that connection. An explicitly requested export is sent by byAir to the email address you provide; a share link is returned without automatically sending it to anyone. These skills do not run local commands, install software or invoke additional connectors.
-
-Flight status and predictions may be incomplete or change. The skills distinguish scheduled, estimated and actual times, and use airport-local timestamps. A byAir itinerary or seat entry does not buy a ticket or change an airline reservation. These skills do not provide continuous background monitoring.
-
-For setup and support, see [AI integration](https://byairapp.com/features/ai-integration/), [FAQ](https://byairapp.com/faq/) or email connect@byairapp.com. Read the [Privacy Policy and Terms](https://byairapp.com/privacy_and_terms/) for how byAir handles your data and the conditions of use.
-
-## Install in Claude
-
-1. Download this repository and open `skills/`.
-2. ZIP each skill folder you want to use, keeping the folder itself at the archive root with `SKILL.md` inside.
-3. In Claude, open **Customize → Skills**, upload each ZIP and enable it.
-
-Ask naturally using the examples above, in your preferred language. Itinerary imports show a preview and ask for confirmation before adding flights to your account.
-
-## Directory packages
-
-The repository root is the plugin folder for both platforms:
-
-- OpenAI uses the portable `plugin.json`, `mcp.json` and `skills/` package.
-- Claude uses `.claude-plugin/plugin.json`, which declares the same remote MCP endpoint, and discovers skills in `skills/`.
-- Each skill declares its OpenAI MCP dependency in `agents/openai.yaml`.
-
-Build the OpenAI upload ZIP from the repository root:
+Run from the repository root:
 
 ```sh
 python3 scripts/package_plugin.py
 python3 scripts/package_plugin.py --check
-claude plugin validate .
+python3 scripts/package_skills.py
+python3 scripts/package_skills.py --check
+claude plugin validate ./plugins/byair
 ```
 
-The OpenAI ZIP is written to `dist/byair-openai-0.2.0.zip`. Individual skill ZIPs can still be generated with `python3 scripts/package_skills.py`. The packaging scripts are developer utilities and are not run by the installed plugin.
-
-Directory publication is separate from manual skill installation. Submit the remote MCP server as a Claude connector and the repository root as a Claude plugin bundle. OpenAI review also needs private reviewer access details, executed review cases, a video walkthrough and successful portal checks. Credentials belong only in private portal fields, not in this repository or an upload ZIP.
+The OpenAI ZIP and standalone skill ZIPs are written to `dist/`. Keep reviewer credentials in private portal fields and out of repository files and archives.
 
 ## License
 

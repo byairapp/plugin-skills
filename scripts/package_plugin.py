@@ -9,7 +9,7 @@ import sys
 from pathlib import Path
 from zipfile import ZIP_DEFLATED, ZipFile, ZipInfo
 
-from package_skills import NAMES, ROOT, skill_bytes, verify_archive
+from package_skills import NAMES, REPO_ROOT, ROOT, skill_bytes, verify_archive
 
 
 def package_entries():
@@ -75,7 +75,7 @@ def main():
     parser.add_argument("--check", action="store_true", help="verify an existing ZIP against source")
     args = parser.parse_args()
     version, entries = package_entries()
-    output = ROOT / "dist" / f"byair-openai-{version}.zip"
+    output = REPO_ROOT / "dist" / f"byair-openai-{version}.zip"
     if not args.check:
         output.parent.mkdir(exist_ok=True)
         with ZipFile(output, "w", compression=ZIP_DEFLATED) as archive:
@@ -86,7 +86,7 @@ def main():
                 info.external_attr = 0o100644 << 16
                 archive.writestr(info, content)
     verify_archive(output, entries)
-    print(f"Verified {output.relative_to(ROOT)}: {len(entries)} files")
+    print(f"Verified {output.relative_to(REPO_ROOT)}: {len(entries)} files")
     print("Local package checks only; portal validation and review execution are separate.")
 
 
