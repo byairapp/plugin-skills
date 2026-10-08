@@ -8,6 +8,8 @@
     "url": "https://byairapp.com"
   },
   "homepage": "https://byairapp.com/features/ai-integration/",
+  "privacyPolicyUrl": "https://byairapp.com/privacy_and_terms/",
+  "documentationUrl": "https://byairapp.com/features/ai-integration/",
   "repository": "https://github.com/byairapp/plugin-skills",
   "license": "MIT",
   "keywords": [
