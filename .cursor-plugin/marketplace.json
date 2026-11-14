@@ -1,0 +1,16 @@
+{
+  "name": "byair-plugins",
+  "owner": {
+    "name": "BYAIRAPP SL",
+    "email": "connect@byairapp.com"
+  },
+  "plugins": [
+    {
+      "name": "byair",
+      "source": "plugins/byair",
+      "description": "Add and manage your flights, check friends' flights, organize trips, and explore your flight history with byAir.",
+      "version": "0.2.0",
+      "license": "MIT"
+    }
+  ]
+}
